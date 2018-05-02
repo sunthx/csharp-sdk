@@ -30,3 +30,7 @@ _ReSharper*/
 /src/packages
 /packages
 /bin
+*.lock
+src/.vs/Qiniu/v15/Server/sqlite3/storage.ide
+src/.vs/Qiniu/v15/Server/sqlite3/storage.ide-shm
+src/.vs/Qiniu/v15/Server/sqlite3/storage.ide-wal
