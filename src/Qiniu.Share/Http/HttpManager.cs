@@ -82,7 +82,7 @@ namespace Qiniu.Share.Http
                 }
                 wReq.UserAgent = userAgent;
                 wReq.AllowAutoRedirect = allowAutoRedirect;
-                wReq.ServicePoint.Expect100Continue = false;
+                //wReq.ServicePoint.Expect100Continue = false;
 
                 HttpWebResponse wResp = wReq.GetResponse() as HttpWebResponse;
 
@@ -187,7 +187,7 @@ namespace Qiniu.Share.Http
                 }
                 wReq.UserAgent = userAgent;
                 wReq.AllowAutoRedirect = allowAutoRedirect;
-                wReq.ServicePoint.Expect100Continue = false;
+                //wReq.ServicePoint.Expect100Continue = false;
 
                 HttpWebResponse wResp = wReq.GetResponse() as HttpWebResponse;
 
