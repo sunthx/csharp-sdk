@@ -92,7 +92,7 @@
         };
 
         /// <summary>
-        /// 新加坡
+        /// 东南亚
         /// </summary>
         public static Zone ZONE_AS_Singapore = new Zone()
         {

@@ -29,6 +29,78 @@ namespace Qiniu.Share.Storage
             this.config = config;
         }
 
+        /// <summary>
+        /// 创建 Bucket
+        /// </summary>
+        public HttpResult Create(string bucketName,string region)
+        {
+            HttpResult httpResult = new HttpResult();
+            try
+            {
+                string scheme = config.UseHttps ? "https://" : "http://";
+                string rsHost = $"{scheme}{Config.DefaultRsHost}";
+                string bucketsUrl = $"{rsHost}/mkbucketv2/{Base64.UrlSafeBase64Encode(bucketName)}/region/{region}";
+                string token = auth.CreateManageToken(bucketsUrl);
+
+                httpResult = httpManager.Post(bucketsUrl, token);
+                
+            }
+            catch (QiniuException ex)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendFormat("[{0}] [buckets] Error:  ", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.ffff"));
+                Exception e = ex;
+                while (e != null)
+                {
+                    sb.Append(e.Message + " ");
+                    e = e.InnerException;
+                }
+                sb.AppendLine();
+
+                httpResult.Code = ex.HttpResult.Code;
+                httpResult.RefCode = ex.HttpResult.Code;
+                httpResult.Text = ex.HttpResult.Text;
+                httpResult.RefText += sb.ToString();
+            }
+
+            return httpResult;
+        }
+
+        /// <summary>
+        /// 设置 Bucket 访问控制
+        /// </summary>
+        public HttpResult SetAccessControl(string bucketName,bool isPrivate)
+        {
+            HttpResult httpResult = new HttpResult();
+            try
+            {
+                string scheme = config.UseHttps ? "https://" : "http://";
+                string rsHost = $"{scheme}uc.qbox.me";
+                string bucketsUrl = $"{rsHost}/private?bucket={bucketName}&private={(isPrivate ? 1 : 0)}";
+                string token = auth.CreateManageToken(bucketsUrl);
+
+                httpResult = httpManager.Post(bucketsUrl,token);
+            }
+            catch (QiniuException ex)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendFormat("[{0}] [buckets] Error:  ", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.ffff"));
+                Exception e = ex;
+                while (e != null)
+                {
+                    sb.Append(e.Message + " ");
+                    e = e.InnerException;
+                }
+                sb.AppendLine();
+
+                httpResult.Code = ex.HttpResult.Code;
+                httpResult.RefCode = ex.HttpResult.Code;
+                httpResult.Text = ex.HttpResult.Text;
+                httpResult.RefText += sb.ToString();
+            }
+
+            return httpResult;
+        }
 
         /// <summary>
         /// 获取空间文件信息

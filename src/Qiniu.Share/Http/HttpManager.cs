@@ -886,7 +886,7 @@ namespace Qiniu.Share.Http
                 wReq.ContentType = ContentType.WWW_FORM_URLENC;
                 wReq.UserAgent = userAgent;
                 wReq.AllowAutoRedirect = allowAutoRedirect;
-                wReq.ServicePoint.Expect100Continue = false;
+                //wReq.ServicePoint.Expect100Continue = false;
 
                 if (!string.IsNullOrEmpty(data))
                 {
@@ -1003,7 +1003,7 @@ namespace Qiniu.Share.Http
                 wReq.ContentType = ContentType.WWW_FORM_URLENC;
                 wReq.UserAgent = userAgent;
                 wReq.AllowAutoRedirect = allowAutoRedirect;
-                wReq.ServicePoint.Expect100Continue = false;
+                //wReq.ServicePoint.Expect100Continue = false;
 
                 if (data != null)
                 {
@@ -1121,7 +1121,7 @@ namespace Qiniu.Share.Http
                 wReq.ContentType = string.Format("{0}; boundary={1}", ContentType.MULTIPART_FORM_DATA, boundary);
                 wReq.UserAgent = userAgent;
                 wReq.AllowAutoRedirect = allowAutoRedirect;
-                wReq.ServicePoint.Expect100Continue = false;
+                //wReq.ServicePoint.Expect100Continue = false;
 
                 wReq.AllowWriteStreamBuffering = true;
                 using (Stream sReq = wReq.GetRequestStream())
