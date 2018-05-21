@@ -1,4 +1,6 @@
-﻿/// <summary>
+﻿using Qiniu.Share;
+
+/// <summary>
 /// Qiniu (Cloud) C# SDK for .NET Framework 2.0+/Core/UWP
 /// Modules in this SDK:
 /// "Storage" 存储相关功能，上传，下载，数据处理，资源管理
@@ -38,5 +40,4 @@ public class QiniuCSharpSDK
     /// SDK版本号
     /// </summary>
     public const string VERSION = "7.3.0";
-
 }

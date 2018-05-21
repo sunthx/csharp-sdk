@@ -1,6 +1,6 @@
 ﻿using System;
-using System.IO;
 using Newtonsoft.Json;
+using Qiniu.Share.IO;
 using Qiniu.Share.Util;
 
 namespace Qiniu.Share.Storage
@@ -19,9 +19,9 @@ namespace Qiniu.Share.Storage
         /// <returns>用于记录断点信息的文件名</returns>
         public static string GetDefaultRecordKey(string localFile, string key)
         {
-            string tempDir = System.Environment.GetEnvironmentVariable("TEMP");
-            System.IO.FileInfo fileInfo = new System.IO.FileInfo(localFile);
-            string uniqueKey = string.Format("{0}:{1}:{2}", localFile, key, fileInfo.LastWriteTime.ToFileTime());
+            string tempDir = IOUtils.Api.GetTempPath();
+            var fileInfo = IOUtils.Api.GetFileInfo(localFile);
+            string uniqueKey = string.Format("{0}:{1}:{2}", localFile, key, fileInfo.UpdatedAt.ToFileTime());
             return string.Format("{0}\\{1}",tempDir,"QiniuResume_" + Hashing.CalcMD5X(uniqueKey));
         }
 
@@ -36,14 +36,7 @@ namespace Qiniu.Share.Storage
 
             try
             {
-                using (FileStream fs = new FileStream(recordFile, FileMode.Open))
-                {
-                    using (StreamReader sr = new StreamReader(fs))
-                    {
-                        string jsonStr = sr.ReadToEnd();
-                        resumeInfo=JsonConvert.DeserializeObject<ResumeInfo>(jsonStr);
-                    }
-                }
+                resumeInfo = JsonConvert.DeserializeObject<ResumeInfo>(IOUtils.Api.ReadFile(recordFile));
             }
             catch (Exception)
             {
@@ -60,15 +53,8 @@ namespace Qiniu.Share.Storage
         /// <param name="recordFile">断点记录文件</param>
         public static void Save(ResumeInfo resumeInfo, string recordFile)
         {
-            string jsonStr = resumeInfo.ToJsonStr();
-
-            using (FileStream fs = new FileStream(recordFile, FileMode.Create))
-            {
-                using (StreamWriter sw = new StreamWriter(fs))
-                {
-                    sw.Write(jsonStr);
-                }
-            }
+            var jsonStr = resumeInfo.ToJsonStr();
+            IOUtils.Api.WriteFile(recordFile,jsonStr);
         }
     }
 }

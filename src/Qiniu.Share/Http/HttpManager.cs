@@ -290,7 +290,7 @@ namespace Qiniu.Share.Http
                 wReq.ContentType = ContentType.APPLICATION_OCTET_STREAM;
                 wReq.UserAgent = userAgent;
                 wReq.AllowAutoRedirect = allowAutoRedirect;
-                wReq.ServicePoint.Expect100Continue = false;
+                //wReq.ServicePoint.Expect100Continue = false;
 
                 if (data != null)
                 {
@@ -408,7 +408,7 @@ namespace Qiniu.Share.Http
                 wReq.ContentType = mimeType;
                 wReq.UserAgent = userAgent;
                 wReq.AllowAutoRedirect = allowAutoRedirect;
-                wReq.ServicePoint.Expect100Continue = false;
+                //wReq.ServicePoint.Expect100Continue = false;
 
                 if (data != null)
                 {
@@ -525,7 +525,7 @@ namespace Qiniu.Share.Http
                 wReq.ContentType = ContentType.APPLICATION_JSON;
                 wReq.UserAgent = userAgent;
                 wReq.AllowAutoRedirect = allowAutoRedirect;
-                wReq.ServicePoint.Expect100Continue = false;
+                //wReq.ServicePoint.Expect100Continue = false;
 
                 if (data != null)
                 {
@@ -642,7 +642,7 @@ namespace Qiniu.Share.Http
                 wReq.ContentType = ContentType.TEXT_PLAIN;
                 wReq.UserAgent = userAgent;
                 wReq.AllowAutoRedirect = allowAutoRedirect;
-                wReq.ServicePoint.Expect100Continue = false;
+                //wReq.ServicePoint.Expect100Continue = false;
 
                 if (data != null)
                 {
@@ -759,7 +759,7 @@ namespace Qiniu.Share.Http
                 wReq.ContentType = ContentType.WWW_FORM_URLENC;
                 wReq.UserAgent = userAgent;
                 wReq.AllowAutoRedirect = allowAutoRedirect;
-                wReq.ServicePoint.Expect100Continue = false;
+                //wReq.ServicePoint.Expect100Continue = false;
 
                 if (kvData != null)
                 {

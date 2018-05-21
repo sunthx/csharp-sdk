@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Qiniu.Share.Http;
+using Qiniu.Share.IO;
 
 namespace Qiniu.Share.Storage
 {
@@ -46,8 +47,8 @@ namespace Qiniu.Share.Storage
         {
             HttpResult result = new HttpResult();
 
-            System.IO.FileInfo fi = new System.IO.FileInfo(localFile);
-            if (fi.Length > this.config.PutThreshold)
+            var fileInfo = IOUtils.Api.GetFileInfo(localFile);
+            if (fileInfo.Size > this.config.PutThreshold)
             {
                 ResumableUploader resumeUploader = new ResumableUploader(config);
                 result = resumeUploader.UploadFile(localFile, key, token, extra);

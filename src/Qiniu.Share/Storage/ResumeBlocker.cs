@@ -4,7 +4,7 @@ using Qiniu.Share.Http;
 
 namespace Qiniu.Share.Storage
 {
-    class ResumeBlocker
+    public class ResumeBlocker
     {
         public ManualResetEvent DoneEvent { set; get; }
         public byte[] BlockBuffer { set; get; }

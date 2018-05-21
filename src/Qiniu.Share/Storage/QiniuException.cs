@@ -3,7 +3,7 @@ using Qiniu.Share.Http;
 
 namespace Qiniu.Share.Storage
 {
-    class QiniuException :Exception
+    public class QiniuException :Exception
     {
         public string message;
         public HttpResult HttpResult;

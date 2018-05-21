@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using Newtonsoft.Json;
 using Qiniu.Share.Http;
+using Qiniu.Share.IO;
 using Qiniu.Share.Util;
 
 namespace Qiniu.Share.Storage
@@ -57,8 +58,8 @@ namespace Qiniu.Share.Storage
         {
             try
             {
-                FileStream fs = new FileStream(localFile, FileMode.Open);
-                return this.UploadStream(fs, key, token, putExtra);
+                var stream = IOUtils.Api.OpenStreamForRead(localFile);
+                return this.UploadStream(stream, key, token, putExtra);
             }
             catch (Exception ex)
             {
@@ -112,7 +113,7 @@ namespace Qiniu.Share.Storage
 
                     //check resume record file
                     ResumeInfo resumeInfo = null;
-                    if (File.Exists(putExtra.ResumeRecordFile))
+                    if (IOUtils.Api.FileExist(putExtra.ResumeRecordFile))
                     {
                         resumeInfo = ResumeHelper.Load(putExtra.ResumeRecordFile);
                         if (resumeInfo != null && fileSize == resumeInfo.FileSize)
@@ -252,9 +253,9 @@ namespace Qiniu.Share.Storage
                                 DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.ffff"), hr.Code, hr.Text);
                         }
 
-                        if (File.Exists(putExtra.ResumeRecordFile))
+                        if (IOUtils.Api.FileExist(putExtra.ResumeRecordFile))
                         {
-                            File.Delete(putExtra.ResumeRecordFile);
+                            IOUtils.Api.FileDelete(putExtra.ResumeRecordFile);
                         }
                         result.Shadow(hr);
                         result.RefText += string.Format("[{0}] [ResumableUpload] Uploaded: \"{1}\" ==> \"{2}\"\n",
