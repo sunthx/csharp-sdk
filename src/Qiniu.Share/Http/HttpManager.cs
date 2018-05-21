@@ -82,11 +82,7 @@ namespace Qiniu.Share.Http
                 }
                 wReq.UserAgent = userAgent;
                 wReq.AllowAutoRedirect = allowAutoRedirect;
-                //wReq.ServicePoint.Expect100Continue = false;
-
-                HttpWebResponse wResp = wReq.GetResponse() as HttpWebResponse;
-
-                if (wResp != null)
+                if (wReq.GetResponse() is HttpWebResponse wResp)
                 {
                     result.Code = (int)wResp.StatusCode;
                     result.RefCode = (int)wResp.StatusCode;
