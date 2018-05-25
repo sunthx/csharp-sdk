@@ -41,6 +41,11 @@ namespace Qiniu.Share.IO
             return new FileStream(localFilePath, FileMode.OpenOrCreate);
         }
 
+        public void CreateFile(string filePath)
+        {
+            File.Create(filePath);
+        }
+
         public string ReadFile(string localFilePath)
         {
             using (var fs = OpenStreamForRead(localFilePath))

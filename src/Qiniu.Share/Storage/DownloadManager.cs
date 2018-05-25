@@ -55,26 +55,20 @@ namespace Qiniu.Share.Storage
         /// 下载文件到本地
         /// </summary>
         /// <param name="url">(可访问的或者已授权的)链接</param>
-        /// <param name="saveasFile">(另存为)本地文件名</param>
+        /// <param name="downloadProgress">下载</param>
         /// <returns>下载资源的结果</returns>
-        public static HttpResult Download(string url, string saveasFile)
+        public static HttpResult Download(string url,IProgress<double> downloadProgress = null)
         {
             HttpResult result = new HttpResult();
 
             try
             {
                 HttpManager httpManager = new HttpManager();
-
-                result = httpManager.Get(url, null, true);
+                result = httpManager.Get(url, null, true, downloadProgress);
                 if (result.Code == (int)HttpCode.OK)
                 {
-                    using (FileStream fs = File.Create(saveasFile, result.Data.Length))
-                    {
-                        fs.Write(result.Data, 0, result.Data.Length);
-                        fs.Flush();
-                    }
                     result.RefText += string.Format("[{0}] [Download] Success: (Remote file) ==> \"{1}\"\n",
-                        DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.ffff"), saveasFile);
+                        DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.ffff"), url);
                 }
                 else
                 {

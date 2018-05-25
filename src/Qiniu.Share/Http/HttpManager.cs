@@ -65,11 +65,11 @@ namespace Qiniu.Share.Http
         /// <param name="url">请求目标URL</param>
         /// <param name="token">令牌(凭证)[可选->设置为null]</param>
         /// <param name="binaryMode">是否以二进制模式读取响应内容(默认:否，即表示以文本方式读取)</param>
+        /// <param name="progress">进度提示</param>
         /// <returns>HTTP-GET的响应结果</returns>
-        public HttpResult Get(string url, string token, bool binaryMode = false)
+        public HttpResult Get(string url, string token, bool binaryMode = false,IProgress<double> progress = null)
         {
             HttpResult result = new HttpResult();
-
             HttpWebRequest wReq = null;
 
             try
@@ -91,17 +91,23 @@ namespace Qiniu.Share.Http
 
                     if (binaryMode)
                     {
-                        int len = (int)wResp.ContentLength;
-                        result.Data = new byte[len];
-                        int bytesLeft = len;
-                        int bytesRead = 0;
+                        int fileSize = (int)wResp.ContentLength;
+                        result.Data = new byte[fileSize];
+                        int bytesLeft = fileSize;
 
                         using (BinaryReader br = new BinaryReader(wResp.GetResponseStream()))
                         {
                             while (bytesLeft > 0)
                             {
-                                bytesRead = br.Read(result.Data, len - bytesLeft, bytesLeft);
+                                var bytesRead = br.Read(result.Data, fileSize - bytesLeft, bytesLeft);
                                 bytesLeft -= bytesRead;
+
+                                if (progress != null)
+                                {
+                                    var percent =Math.Round((fileSize - bytesLeft) / (double)fileSize,4);
+                                    progress.Report(percent);
+                                }
+
                             }
                         }
                     }

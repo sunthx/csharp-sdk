@@ -16,6 +16,8 @@ namespace Qiniu.Share.IO
 
         Stream OpenStreamForWrite(string localFilePath);
 
+        void CreateFile(string filePath);
+
         string ReadFile(string localFilePath);
 
         void WriteFile(string localFilePath, string content);

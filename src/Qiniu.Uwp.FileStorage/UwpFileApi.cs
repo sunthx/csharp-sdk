@@ -83,6 +83,18 @@ namespace Qiniu.Uwp.FileStorage
             return task.Result.Result;
         }
 
+        public void CreateFile(string filePath)
+        {
+            var task = Task.Factory.StartNew(async () =>
+            {
+                var directory = Path.GetDirectoryName(filePath);
+                var folder = await StorageFolder.GetFolderFromPathAsync(directory);
+                await folder.CreateFileAsync(Path.GetFileName(filePath), CreationCollisionOption.ReplaceExisting);
+            });
+
+            task.Wait();
+        }
+
         public string ReadFile(string localFilePath)
         {
             var task = Task.Factory.StartNew(async () =>
